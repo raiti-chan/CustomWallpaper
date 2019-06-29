@@ -119,10 +119,14 @@
   <ItemGroup>
     <ClCompile Include="applicaton.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="wallpaper_window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="wallpaper_window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
