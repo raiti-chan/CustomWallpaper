@@ -1,79 +1,40 @@
 #include "pch.h"
 #include "wallpaper_window.h"
 
+const char wallpaper_window::WINDOW_CLASS_NAME[] = "WALLPAPER_WINDOW";
 
-const char* const wallpaper_window::class_name = "wallpaper_window";
+bool wallpaper_window::IS_REGISTERD_WINDOWCLASS = false;
 
-
-LRESULT wallpaper_window::window_proc(HWND h_wnd, UINT msg, WPARAM w_param, LPARAM l_param) {
-	switch (msg) {
-	case WM_DESTROY:
-	{
-		std::cout << "wallpaper_window closed.\n";
-		PostQuitMessage(0);
-		return 0;
+bool wallpaper_window::init_wallpaper_window() {
+	if (!IS_REGISTERD_WINDOWCLASS) {
+		WNDCLASSEX window_class;
+		ZeroMemory(&window_class, sizeof(WNDCLASSEX));
+		window_class.cbSize = sizeof(WNDCLASSEX);
+		window_class.style = CS_HREDRAW | CS_VREDRAW;
+		window_class.lpfnWndProc = window_proc;
+		window_class.hInstance = nullptr;
+		window_class.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+		window_class.hCursor = LoadCursor(nullptr, IDC_ARROW);
+		window_class.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_BACKGROUND + 1);
+		window_class.lpszMenuName = nullptr;
+		window_class.lpszClassName = WINDOW_CLASS_NAME;
+		window_class.hIconSm = nullptr;
+		RegisterClassEx(&window_class);
 	}
-	case WM_NULL:
-	{
-		return 0;
-	}
-	default:
-		return DefWindowProc(h_wnd, msg, w_param, l_param);
-	}
+}
+
+void wallpaper_window::final_wallpaper_window() {
+	UnregisterClass()
+}
+
+wallpaper_window::wallpaper_window() {
 
 }
 
-bool wallpaper_window::register_window(HINSTANCE h_instance) {
-	WNDCLASS window_class{
-		CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
-		window_proc,
-		0,
-		0,
-		h_instance,
-		LoadIcon(nullptr, IDI_APPLICATION),
-		LoadCursor(nullptr, IDC_ARROW),
-		reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)),
-		nullptr,
-		class_name
-	};
-	std::cout << "Register wallpaper_window class.\n";
-	return RegisterClass(&window_class);
+
+wallpaper_window::~wallpaper_window() {
 }
 
-bool wallpaper_window::un_register_window(HINSTANCE h_instance) {
-	std::cout << "UnRegister wallpaper_window class.\n";
-	return UnregisterClass(class_name, h_instance);
+LRESULT CALLBACK wallpaper_window::window_proc(HWND h_window, UINT param, WPARAM w_param, LPARAM l_param) {
+	return DefWindowProc(h_window, param, w_param, l_param);
 }
-
-wallpaper_window::wallpaper_window(HINSTANCE h_instance, HWND workerw, bool& result) {
-	RECT primary_monitor_rect;
-	if (!SystemParametersInfo(SPI_GETWORKAREA, 0, &primary_monitor_rect, 0)) {
-		result = false;
-		return;
-	}
-	this->_window_handle = CreateWindow(class_name, class_name, WS_CHILD, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
-										workerw, nullptr, h_instance, nullptr);
-	if (this->_window_handle == nullptr) {
-		result = false;
-		return;
-	}
-
-}
-
-void wallpaper_window::show_window() const {
-	ShowWindow(this->_window_handle, SW_SHOWNA);
-}
-
-void wallpaper_window::hide_window() const {
-	ShowWindow(this->_window_handle, SW_HIDE);
-}
-
-void wallpaper_window::activate_window() const {
-	SetWindowPos(this->_window_handle, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-}
-
-void wallpaper_window::deactivate_window() const {
-	SetWindowPos(this->_window_handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-}
-
-

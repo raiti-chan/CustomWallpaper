@@ -1,113 +1,118 @@
 #pragma once
-#include "wallpaper_window.h"
+
+#include "error_code.h"
 
 /// <summary>
 /// アプリケーションクラス
 /// </summary>
 class application final {
 
-	/// <summary>
-	/// このアプリケーションのインスタンス
-	/// </summary>
-	static application* _instance;
 
+#pragma region	Private Field
 	/// <summary>
-	/// アプリケーション終了コード
+	/// シングルトンインスタンス
+	/// </summary>	
+	static application* _instance;
+	/// <summary>
+	/// アプリケーションの終了コード
 	/// </summary>
 	int _exit_code = 0;
+	
+	/// <summary>
+	/// 最後に起きたエラー
+	/// </summary>
+	environment::error_code _last_error;
 
 	/// <summary>
-	/// インスタンスハンドル
+	/// アプリケーションのインスタンスハンドル
 	/// </summary>
 	HINSTANCE _app_instance;
-
 	/// <summary>
-	/// PowerShell プロセスID
+	/// PowerShellのプロセスid
 	/// </summary>
-	DWORD _ps_process_id = 0;
-
+	DWORD ps_process_id = 0;
 	/// <summary>
-	/// 標準出力のファイルインスタンスへのポインタ
+	/// PowerShellのウィンドウハンドル
 	/// </summary>
-	FILE *_out = nullptr, *_err = nullptr, *_in = nullptr;
-
+	HWND ps_process_hwnd = nullptr;
 	/// <summary>
-	/// WorkerW ウィンドウハンドル
+	/// 標準出力のファイルポインタ
 	/// </summary>
-	HWND _h_workerw_window = nullptr;
-
+	FILE *out = nullptr, *err = nullptr, *in = nullptr;
+#pragma endregion
+	
 	/// <summary>
-	/// 壁紙ウィンドウ
+	/// テスト:PowerShellを起動
 	/// </summary>
-	wallpaper_window* _wallpaper_window = nullptr;
-
-	/// <summary>
-	/// アプリケーションへのメッセージ
-	/// </summary>
-	MSG _message = { nullptr };
+	/// <returns>成功した場合true</returns>
+	bool t_start_powershell();
 
 public :
-
 	/// <summary>
-	/// このアプリケーションのインスタンス
+	/// シングルトンインスタンスポインタを返します。
 	/// </summary>
-	/// <returns>インスタンスへのポインタ</returns>
+	/// <returns>シングルトンのインスタンスポインタ</returns>
 	static application* instance() {
 		return _instance;
 	}
-
+	
 	/// <summary>
-	/// アプリケーション
+	/// <see cref="application"/>クラスをインスタンス化します.
 	/// </summary>
-	/// <param name="h_instance">インスタンスハンドル</param>
+	/// <param name="h_instance">アプリケーションのインスタンスハンドル</param>
 	explicit application(HINSTANCE h_instance) : _app_instance(h_instance) {
 		_instance = this;
 	}
-
-	~application() {
-		delete _wallpaper_window;
-	}
-
+	
 	/// <summary>
-	/// 初期化、エラーが発生した場合 exit_codeにエラーコードが返ります。
+	/// アプリケーションを初期化します。
 	/// </summary>
-	///	<returns>win32APIでエラーが発生した場合falseが返ります</returns>
-	bool init();
-
+	void init();
+	
 	/// <summary>
-	/// 実行
+	/// アプリケーションを起動
 	/// </summary>
 	void run();
 	
 	/// <summary>
-	/// 終了処理
+	/// アプリケーションの終了処理
 	/// </summary>
-	void fin() const;
-
+	void fin();
+		
 	/// <summary>
-	/// エラーコードを出力します。
+	/// 発生エラーの設定
 	/// </summary>
-	/// <param name="error_code">エラーコード</param>
-	static void write_error_message(DWORD error_code);
-
+	/// <param name="error_code">The error code.</param>
+	void set_last_error(unsigned long long error_code) {
+		this->_last_error.raw_code = error_code;
+	}
+	
 	/// <summary>
-	/// WorkerWウィンドウ
+	/// 最後に起きたエラーコードの取得
 	/// </summary>
 	/// <returns></returns>
-	static HWND find_workerw_window();
-
-	/// <summary>
-	/// 終了コードを取得
-	/// </summary>
-	/// <returns>終了コード</returns>
-	int exit_code() const {
-		return this->_exit_code;
+	unsigned long long get_last_error() {
+		return this->_last_error.raw_code;
 	}
 
 	/// <summary>
-	/// インスタンスハンドルを取得
+	/// エラーコードからエラーメッセージを出力します。
 	/// </summary>
-	/// <returns>インスタンスハンドル</returns>
+	/// <param name="error_code">エラーコード</param>
+	static void write_error_message(environment::error_code);
+		
+	/// <summary>
+	/// 終了コード
+	/// </summary>
+	/// <returns></returns>
+	const int exit_code() const {
+		return this->_exit_code;
+	}
+	
+	/// <summary>
+	/// アプリケーションのインスタンスハンドル
+	/// </summary>
+	/// <returns></returns>
 	HINSTANCE app_instance() const {
 		return this->_app_instance;
 	}
