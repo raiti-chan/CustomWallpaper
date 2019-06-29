@@ -121,7 +121,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="private_application.cpp" />
     <ClCompile Include="process.cpp" />
     <ClCompile Include="applicaton.cpp" />
     <ClCompile Include="pch.cpp" />

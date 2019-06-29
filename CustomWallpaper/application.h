@@ -6,7 +6,7 @@
 /// アプリケーションクラス
 /// </summary>
 class application final {
-
+/*
 
 #pragma region	Private Field
 	/// <summary>
@@ -21,12 +21,12 @@ class application final {
 	/// <summary>
 	/// 最後に起きたエラー
 	/// </summary>
-	environment::error_code _last_error;
+	DWORD _last_error = 0;
 
 	/// <summary>
 	/// アプリケーションのインスタンスハンドル
 	/// </summary>
-	HINSTANCE _app_instance;
+	HINSTANCE _app_instance = nullptr;
 	/// <summary>
 	/// PowerShellのプロセスid
 	/// </summary>
@@ -61,7 +61,8 @@ public :
 	/// </summary>
 	/// <param name="h_instance">アプリケーションのインスタンスハンドル</param>
 	explicit application(HINSTANCE h_instance) : _app_instance(h_instance) {
-		_instance = this;
+		this->_instance = this;
+		this->_last_error = 0;
 	}
 	
 	/// <summary>
@@ -82,38 +83,31 @@ public :
 	/// <summary>
 	/// 発生エラーの設定
 	/// </summary>
-	/// <param name="error_code">The error code.</param>
-	void set_last_error(unsigned long long error_code) {
-		this->_last_error.raw_code = error_code;
-	}
+	/// <param name="error_code">設定するエラーコード</param>
+	void set_last_error(DWORD error_code);
 	
 	/// <summary>
 	/// 最後に起きたエラーコードの取得
 	/// </summary>
 	/// <returns></returns>
-	unsigned long long get_last_error() {
-		return this->_last_error.raw_code;
-	}
+	DWORD get_last_error();
 
 	/// <summary>
 	/// エラーコードからエラーメッセージを出力します。
 	/// </summary>
 	/// <param name="error_code">エラーコード</param>
-	static void write_error_message(environment::error_code);
+	static void write_error_message(DWORD error_code);
 		
 	/// <summary>
 	/// 終了コード
 	/// </summary>
 	/// <returns></returns>
-	const int exit_code() const {
-		return this->_exit_code;
-	}
+	const int exit_code() const;
 	
 	/// <summary>
 	/// アプリケーションのインスタンスハンドル
 	/// </summary>
 	/// <returns></returns>
-	HINSTANCE app_instance() const {
-		return this->_app_instance;
-	}
+	HINSTANCE app_instance() const;
+*/
 };

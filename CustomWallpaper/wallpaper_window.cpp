@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "wallpaper_window.h"
-
+/*
 const char wallpaper_window::WINDOW_CLASS_NAME[] = "WALLPAPER_WINDOW";
 
 bool wallpaper_window::IS_REGISTERD_WINDOWCLASS = false;
@@ -24,7 +24,7 @@ bool wallpaper_window::init_wallpaper_window() {
 }
 
 void wallpaper_window::final_wallpaper_window() {
-	UnregisterClass()
+	//UnregisterClass();
 }
 
 wallpaper_window::wallpaper_window() {
@@ -38,3 +38,4 @@ wallpaper_window::~wallpaper_window() {
 LRESULT CALLBACK wallpaper_window::window_proc(HWND h_window, UINT param, WPARAM w_param, LPARAM l_param) {
 	return DefWindowProc(h_window, param, w_param, l_param);
 }
+*/

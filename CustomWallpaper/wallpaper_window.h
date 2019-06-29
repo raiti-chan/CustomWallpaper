@@ -3,6 +3,7 @@
 /// 壁紙ウィンドウ
 /// </summary>
 class wallpaper_window {
+	/*
 	static const char WINDOW_CLASS_NAME[];
 	/// <summary>
 	/// このウィンドウのウィンドウクラスが登録されていればtrue
@@ -17,5 +18,6 @@ public:
 	~wallpaper_window();
 
 	static LRESULT CALLBACK window_proc(HWND h_window, UINT param ,WPARAM w_param, LPARAM l_param);
+	*/
 };
 

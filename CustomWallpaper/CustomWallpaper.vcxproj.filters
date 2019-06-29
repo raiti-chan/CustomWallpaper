@@ -45,9 +45,6 @@
     <ClCompile Include="window_util.cpp">
       <Filter>ソース ファイル\util</Filter>
     </ClCompile>
-    <ClCompile Include="private_application.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="wallpaper_window.cpp">
       <Filter>ソース ファイル\window</Filter>
     </ClCompile>
