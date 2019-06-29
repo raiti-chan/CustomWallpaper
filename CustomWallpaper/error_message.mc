@@ -1,0 +1,3 @@
+
+
+MessageIdTypedef = DWORD

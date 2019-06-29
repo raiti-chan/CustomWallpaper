@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "application.h"
+#include "window_util.h"
 
-application* application::_instance;
+application* application::_instance;	
 
 void application::init() {
 	if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
@@ -16,24 +17,14 @@ void application::init() {
 
 void application::run() {
 	std::cout << "running.\n";
-	PROCESS_INFORMATION process_information = { 0 };
-	STARTUPINFO startup_info = { sizeof(STARTUPINFO) };
-	char cmd_line[] = "conhost.exe powershell.exe";
-	bool result = CreateProcess(nullptr, cmd_line, nullptr, nullptr, false,
-				  NORMAL_PRIORITY_CLASS, nullptr, nullptr, &startup_info, &process_information);
-	if (!result) {
-		write_error_message(GetLastError());
-		system("pause");
-		this->_exit_code = GetLastError();
-		return;
-;	}
+	
+	//if (!t_start_powershell()) return;
 
-	this->ps_process_id = process_information.dwProcessId;
 
 	system("pause");
 }
 
-void application::fin() const {
+void application::fin() {
 	std::cout << "finalize.\n";
 	fclose(this->out);
 	fclose(this->err);
@@ -41,11 +32,17 @@ void application::fin() const {
 	FreeConsole();
 }
 
-void application::write_error_message(DWORD error_code) {
+void application::write_error_message(environment::error_code error_code) {
 	LPSTR lp_message_buffer = nullptr;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, nullptr, error_code, LANG_USER_DEFAULT, 
-				  reinterpret_cast<LPSTR>(&lp_message_buffer), 0, nullptr);
-	std::cerr << error_code << " : " << lp_message_buffer << "\n";
+	if (error_code.raw_code & environment::APPLICATION_ERROR) {
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_FROM_HMODULE, nullptr, error_code.split_code.error_code, 
+			LANG_USER_DEFAULT, reinterpret_cast<LPSTR>(&lp_message_buffer), 0, nullptr);
+
+	} else {
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, nullptr, error_code.split_code.error_code, LANG_USER_DEFAULT,
+			reinterpret_cast<LPSTR>(&lp_message_buffer), 0, nullptr);
+	}
+	std::cerr << std::hex << error_code.raw_code << " : " << lp_message_buffer << "\n";
 	LocalFree(lp_message_buffer);
 }
 
@@ -55,6 +52,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 	app.init();
 	app.run();
 	app.fin();
-	app.exit_code();
+	return app.exit_code();
 }
 

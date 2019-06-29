@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\util">
+      <UniqueIdentifier>{cf7bbfc8-ff74-4c4a-a4f8-79a7c087a08a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\window">
+      <UniqueIdentifier>{2d0608f1-5e72-49c2-8639-c8ce80143e87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\util">
+      <UniqueIdentifier>{315ca789-3c2f-48ad-b20d-33c844033526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\window">
+      <UniqueIdentifier>{245c045e-e50e-499a-88fb-9b5e8a99c5b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\environment">
+      <UniqueIdentifier>{d3aea736-3a2e-47d2-8ee2-01684c58f5eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\environment">
+      <UniqueIdentifier>{145ee535-0153-421e-9471-3581d7fcf2ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -20,6 +38,18 @@
     </ClCompile>
     <ClCompile Include="applicaton.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="process.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="window_util.cpp">
+      <Filter>ソース ファイル\util</Filter>
+    </ClCompile>
+    <ClCompile Include="private_application.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="wallpaper_window.cpp">
+      <Filter>ソース ファイル\window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,5 +59,31 @@
     <ClInclude Include="application.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="process.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="window_util.h">
+      <Filter>ヘッダー ファイル\util</Filter>
+    </ClInclude>
+    <ClInclude Include="wallpaper_window.h">
+      <Filter>ヘッダー ファイル\window</Filter>
+    </ClInclude>
+    <ClInclude Include="non_copyable.h">
+      <Filter>ヘッダー ファイル\util</Filter>
+    </ClInclude>
+    <ClInclude Include="error_code.h">
+      <Filter>ヘッダー ファイル\environment</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="error_message.mc">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>
