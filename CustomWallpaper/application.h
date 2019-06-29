@@ -1,18 +1,29 @@
 #pragma once
-
-#include "error_code.h"
+#include "pch.h"
 
 /// <summary>
 /// アプリケーションクラス
 /// </summary>
 class application final {
-/*
 
-#pragma region	Private Field
 	/// <summary>
 	/// シングルトンインスタンス
 	/// </summary>	
 	static application* _instance;
+
+	/// <summary>
+	/// アプリケーションの終了コード
+	/// </summary>
+	int exit_code;
+
+	/// <summary>
+	/// 最後に起きたエラー
+	/// </summary>
+	DWORD last_error;
+
+/*
+
+#pragma region	Private Field
 	/// <summary>
 	/// アプリケーションの終了コード
 	/// </summary>

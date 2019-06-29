@@ -128,7 +128,6 @@
     <ClCompile Include="window_util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="error_code.h" />
     <ClInclude Include="error_message.h" />
     <ClInclude Include="non_copyable.h" />
     <ClInclude Include="process.h" />
