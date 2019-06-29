@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 
 namespace environment {	
 	/// <summary>
@@ -11,8 +12,8 @@ namespace environment {
 	constexpr unsigned long long APPLICATION_ERROR = 0x0100000000000000;
 	
 	using error_struct = struct _error_struct {
-		DWORD error_category;
-		DWORD error_code;
+		unsigned long error_category;
+		unsigned long error_code;
 	};
 	
 	using error_code = union _error_code {
